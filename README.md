@@ -29,6 +29,8 @@ yarn add @stanvanheumen/ngx-storage
 Add the `NgxStorageModule` to your imports array in your `CoreModule`. To get a singleton of the `StorageService`, call 
 the `forRoot()` method.
 
+When you forget to call the `forRoot()` method you will NOT receive the `StorageService` provider.
+
 ```typescript
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
@@ -53,11 +55,14 @@ There are four methods in this library:
 
 ### Get
 
-When you call this method you receive an RxJS Observable that will get updated once the user sets a new value to the 
-same token via the `set<T>()` method. This method supports automatic JSON parsing.
+When you call this method you receive an `Observable` that will get updated each time the user sets a new value 
+via the `set<T>()` method. This method supports automatic JSON parsing.
 
 ```typescript
-this.storage.get<T>('my-local-storage-token'); // Returns an observable of type T.
+this.storage.get<T>('my-local-storage-token').subscribe(result => {
+    // Returns an object or primitive of type T.
+    // This will get triggered every time a change is made in the local storage.
+});
 ```
 
 ### Set
@@ -72,7 +77,7 @@ this.storage.set<T>('my-local-storage-token', 'my-new-value'); // The second arg
 ### Clear
 
 When you call this method the subscriptions on the `get<T>()` observable will automatically get set to null. 
-And the local storage will be cleared.
+And the local storage will be cleared of the provided key.
 
 ```typescript
 this.storage.clear('my-local-storage-token');

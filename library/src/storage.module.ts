@@ -11,9 +11,7 @@ export class NgxStorageModule {
     static forRoot() {
         return {
             ngModule: NgxStorageModule,
-            providers: [
-                StorageService
-            ]
+            providers: [StorageService]
         };
     }
 
