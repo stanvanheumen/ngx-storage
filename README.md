@@ -8,6 +8,7 @@ A simple library that allows you to use local storage in Angular 5+.
 
 - :frog: **Observable based**
 - :camel: **Easy implementation**
+- :panda_face: **Automatic JSON parsing**
 - :mouse: **Lazy loading compatible**
 - :sheep: **Angular Universal compatible**
 - :bird: **Ahead-Of-Time compilation compatible**
@@ -24,8 +25,8 @@ yarn add @stanvanheumen/ngx-storage
 
 ## Setup
 
-Add the `NgxStorageModule` to your imports array in your `CoreModule`. 
-To receive the provider call the `forRoot()` method.
+Add the `NgxStorageModule` to your imports array in your `CoreModule`. To get a singleton of the `StorageService`, call 
+the `forRoot()` method.
 
 ```typescript
 import {BrowserModule} from '@angular/platform-browser';
@@ -46,6 +47,46 @@ export class AppModule {}
 ```
 
 ## Usage
+
+There are four methods in this library:
+
+### Get
+
+When you call this method you receive an RxJS Observable that will get updated once the user sets a new value to the 
+same token via the `set<T>()` method. This method supports automatic JSON parsing.
+
+```typescript
+this.storage.get<T>('my-local-storage-token'); // Returns an observable of type T.
+```
+
+### Set
+
+When you call this method the subscriptions on the `get<T>()` observable will automatically get notified.
+This method supports the automatic JSON stringify.
+
+```typescript
+this.storage.set<T>('my-local-storage-token', 'my-new-value'); // The second argument is of type T.
+```
+
+### Clear
+
+When you call this method the subscriptions on the `get<T>()` observable will automatically get set to null. 
+And the local storage will be cleared.
+
+```typescript
+this.storage.clear('my-local-storage-token');
+```
+
+### Clear all
+
+When you call this method the subscriptions on the `get<T>()` observable will automatically get set to null. 
+And the local storage will be completely cleared.
+
+```typescript
+this.storage.clearAll();
+```
+
+## Example
 
 ```typescript
 import {Component, OnInit} from '@angular/core';
