@@ -12,6 +12,7 @@ A simple library that allows you to use local storage in Angular 5+.
 - :mouse: **Lazy loading compatible**
 - :sheep: **Angular Universal compatible**
 - :bird: **Ahead-Of-Time compilation compatible**
+- :hamster: **Library can be consumed by Angular CLI, Webpack, or SystemJS**
 
 ## Installation
 
