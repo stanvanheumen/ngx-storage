@@ -39,8 +39,8 @@ import {AppComponent} from './app.component';
     BrowserModule,
     NgxStorageModule.forRoot()
   ],
-  declarations: [ AppComponent ],
-  bootstrap: [ AppComponent ]
+  declarations: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
 ```
