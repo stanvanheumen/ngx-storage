@@ -36,8 +36,8 @@ import {AppComponent} from './app.component';
 
 @NgModule({
   imports: [
-    BrowserModule,
-    NgxStorageModule.forRoot()
+      BrowserModule,
+      NgxStorageModule.forRoot()
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent]
