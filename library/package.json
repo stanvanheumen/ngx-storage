@@ -1,0 +1,24 @@
+{
+    "name": "@stanvanheumen/ngx-storage",
+    "version": "1.0.0",
+    "license": "MIT",
+    "description": "A simple library that allows you use local storage in Angular 5+.",
+    "author": {
+        "name": "Stan van Heumen",
+        "email": "stanvanheumen@gmail.com",
+        "url": "https://www.linkedin.com/in/stan-van-heumen"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/stanvanheumen/ngx-storage.git"
+    },
+    "bugs": {
+        "email": "stanvanheumen@gmail.com",
+        "url": "https://github.com/stanvanheumen/ngx-storage.git/issues"
+    },
+    "homepage": "https://github.com/stanvanheumen/ngx-storage#readme",
+    "peerDependencies": {
+        "@angular/common": ">=5.0.0",
+        "@angular/core": ">=5.0.0"
+    }
+}
