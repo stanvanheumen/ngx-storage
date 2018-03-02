@@ -17,8 +17,12 @@ export class AppComponent implements OnInit {
         this.data$ = this.storage.get<string>('my-local-storage-token');
     }
 
-    setStorage(value: string) {
+    setStorageValue(value: string) {
         this.storage.set<string>('my-local-storage-token', value);
+    }
+
+    clearStorageValue() {
+        this.storage.clear('my-local-storage-token');
     }
 
 }

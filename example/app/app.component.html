@@ -1,2 +1,6 @@
-<pre>{{ data$ | async | json }}</pre>
-<button (click)="setStorage('myNewValue')">Set a new value</button>
+<pre><code>Current value in the local storage : {{ data$ | async | json }}</code></pre>
+
+<button (click)="setStorageValue('Awesome')">Set value to <strong>"Awesome"</strong></button>
+<button (click)="setStorageValue('Cool')">Set value to <strong>"Cool"</strong></button>
+<button (click)="setStorageValue('Hello world!')">Set value to <strong>"Hello world!"</strong></button>
+<button (click)="clearStorageValue()">Clear the value</button>

@@ -14,44 +14,40 @@ A simple library that allows you to use local storage in Angular 5+.
 - :bird: **Ahead-Of-Time compilation compatible**
 - :hamster: **Library can be consumed by Angular CLI, Webpack, or SystemJS**
 
+## Demo
+
+[Click here to play with the example](https://stackblitz.com/github/stanvanheumen/ngx-storage)
+
 ## Installation
 
+To use ngx-storage in your project install it via `npm` or `yarn`:
+
 ```bash
-npm install @stanvanheumen/ngx-storage --save
+$ npm install @stanvanheumen/ngx-storage --save
 
 # or
 
-yarn add @stanvanheumen/ngx-storage
+$ yarn add @stanvanheumen/ngx-storage
 ```
 
 ## Setup
 
-Add the `NgxStorageModule` to your imports array in your `CoreModule`. To get a singleton of the `StorageService`, call 
-the `forRoot()` method.
+Add the `NgxStorageModule` to your imports array in your `Root Module`.
 
 When you forget to call the `forRoot()` method you will NOT receive the `StorageService` provider.
 
 ```typescript
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
 import {NgxStorageModule} from '@stanvanheumen/ngx-storage';
 
-import {AppComponent} from './app.component';
-
 @NgModule({
-  imports: [
-      BrowserModule,
-      NgxStorageModule.forRoot()
-  ],
-  declarations: [AppComponent],
-  bootstrap: [AppComponent]
+    imports: [
+        NgxStorageModule.forRoot()
+    ]
 })
 export class AppModule {}
 ```
 
 ## Usage
-
-There are four methods in this library:
 
 ### Get
 
@@ -102,8 +98,12 @@ import {Observable} from 'rxjs/Observable';
 @Component({
     selector: 'app-root',
     template: `
-        <pre>{{ data$ | async | json }}</pre>
-        <button (click)="setStorage('myNewValue')">Set a new value</button>  
+        <pre><code>Current value in the local storage : {{ data$ | async | json }}</code></pre>
+        
+        <button (click)="setStorageValue('Awesome')">Set value to <strong>"Awesome"</strong></button>
+        <button (click)="setStorageValue('Cool')">Set value to <strong>"Cool"</strong></button>
+        <button (click)="setStorageValue('Hello world!')">Set value to <strong>"Hello world!"</strong></button>
+        <button (click)="clearStorageValue()">Clear the value</button>
     `
 })
 export class AppComponent implements OnInit {
@@ -117,8 +117,12 @@ export class AppComponent implements OnInit {
         this.data$ = this.storage.get<string>('my-local-storage-token');
     }
     
-    setStorage(value: string) {
+    setStorageValue(value: string) {
         this.storage.set<string>('my-local-storage-token', value);
+    }
+    
+    clearStorageValue() {
+        this.storage.clear('my-local-storage-token');
     }
 
 }
