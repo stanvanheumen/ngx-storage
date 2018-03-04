@@ -1,6 +1,33 @@
-<pre><code>Current value in the local storage : {{ data$ | async | json }}</code></pre>
+<pre><code>
+    Current value for <span class="blue">my-current-language</span> the local storage : <span class="blue">{{ currentLanguage$ | async | json }}</span>;
 
-<button (click)="setStorageValue('Awesome')">Set value to <strong>"Awesome"</strong></button>
-<button (click)="setStorageValue('Cool')">Set value to <strong>"Cool"</strong></button>
-<button (click)="setStorageValue('Hello world!')">Set value to <strong>"Hello world!"</strong></button>
-<button (click)="clearStorageValue()">Clear the value</button>
+    Current value for <span class="green">my-authentication-token</span> in the local storage <span class="green">{{ authenticationToken$ | async | json }}</span>;
+
+</code></pre>
+
+<div class="row">
+    <div class="column">
+        <button (click)="setStorageValue('my-current-language', 'English (English)')" class="blue">
+            Set <strong>my-current-language</strong> to <strong>"English (English)"</strong>
+        </button>
+        <button (click)="setStorageValue('my-current-language', 'German (German)')" class="blue">
+            Set <strong>my-current-language</strong> to <strong>"German (German)"</strong>
+        </button>
+        <button (click)="clearStorageValue('my-current-language')" class="blue">
+            Clear <strong>my-current-language</strong>
+        </button>
+    </div>
+    <div class="column">
+        <button (click)="setStorageValue('my-authentication-token', '5bba6ea7-559a-43c3')" class="green">
+            Set <strong>my-authentication-token</strong> to <strong>"5bba6ea7-559a-43c3"</strong>
+        </button>
+        <button (click)="setStorageValue('my-authentication-token', '23849djs-1238-asdh')" class="green">
+            Set <strong>my-authentication-token</strong> to <strong>"23849djs-1238-asdh"</strong>
+        </button>
+        <button (click)="clearStorageValue('my-authentication-token')" class="green">
+            Clear <strong>my-authentication-token</strong>
+        </button>
+    </div>
+</div>
+
+<button (click)="clearAll()" class="red">Clear the entire storage</button>

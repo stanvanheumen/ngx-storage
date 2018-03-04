@@ -47,21 +47,23 @@ import {NgxStorageModule} from '@stanvanheumen/ngx-storage';
 export class AppModule {}
 ```
 
-## Usage
+## API
 
-### Get
+### Retrieving data
 
-When you call this method you receive an `Observable` that will get updated each time the user sets a new value 
-via the `set<T>()` method. This method supports automatic JSON parsing.
+When you call this method you receive an `Observable` that will get updated each time the user sets a **new** value 
+via the `set<T>()` method. This method supports automatic JSON parsing, so you will receive an object/primitive of the 
+type you specify.
 
 ```typescript
-this.storage.get<T>('my-local-storage-token').subscribe(result => {
-    // Returns an object or primitive of type T.
-    // This will get triggered every time a change is made in the local storage.
-});
+// For a primative type like string, number and boolean.
+const string$ = this.storage.get<string>('my-string');
+
+// For an advanced object or array.
+const object$ = this.storage.get<MyAdvancedObject>('my-advanced-object');
 ```
 
-### Set
+### Saving data
 
 When you call this method the subscriptions on the `get<T>()` observable will automatically get notified.
 This method supports the automatic JSON stringify.
@@ -70,7 +72,7 @@ This method supports the automatic JSON stringify.
 this.storage.set<T>('my-local-storage-token', 'my-new-value'); // The second argument is of type T.
 ```
 
-### Clear
+### Clearing data
 
 When you call this method the subscriptions on the `get<T>()` observable will automatically get set to null. 
 And the local storage will be cleared of the provided key.
@@ -79,9 +81,9 @@ And the local storage will be cleared of the provided key.
 this.storage.clear('my-local-storage-token');
 ```
 
-### Clear all
+### Clearing all
 
-When you call this method the subscriptions on the `get<T>()` observable will automatically get set to null. 
+When you call this method the subscriptions on the `get<T>()` observables will automatically get set to null. 
 And the local storage will be completely cleared.
 
 ```typescript

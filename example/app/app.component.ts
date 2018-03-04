@@ -8,21 +8,27 @@ import {Observable} from 'rxjs/Observable';
 })
 export class AppComponent implements OnInit {
 
-    data$: Observable<string>;
+    currentLanguage$: Observable<string>;
+    authenticationToken$: Observable<string>;
 
     constructor(private storage: StorageService) {
     }
 
     ngOnInit() {
-        this.data$ = this.storage.get<string>('my-local-storage-token');
+        this.currentLanguage$ = this.storage.get<string>('my-current-language');
+        this.authenticationToken$ = this.storage.get<string>('my-authentication-token');
     }
 
-    setStorageValue(value: string) {
-        this.storage.set<string>('my-local-storage-token', value);
+    setStorageValue(token: string, value: string) {
+        this.storage.set<string>(token, value);
     }
 
-    clearStorageValue() {
-        this.storage.clear('my-local-storage-token');
+    clearStorageValue(token: string) {
+        this.storage.clear(token);
+    }
+
+    clearAll() {
+        this.storage.clearAll();
     }
 
 }
