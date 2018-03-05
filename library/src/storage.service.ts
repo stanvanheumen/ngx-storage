@@ -25,16 +25,16 @@ export class StorageService {
         }
     }
 
-    get<T = any>(key: string): Observable<T | null> {
+    get<T = any>(token: string): Observable<T | null> {
         // Check if the storage is already in the state; if so, return the subject.
-        if (this.state[key]) {
-            return this.state[key];
+        if (this.state[token]) {
+            return this.state[token];
         }
 
         // Get the data from the local storage.
         let rawData = null;
         if (this.storage) {
-            rawData = this.storage.getItem(key);
+            rawData = this.storage.getItem(token);
         }
 
         // Try to parse the data.
@@ -52,60 +52,59 @@ export class StorageService {
         }
 
         // Add the parsed data to the state as an observable.
-        this.state[key] = new BehaviorSubject<T>(parsedData);
+        this.state[token] = new BehaviorSubject<T>(parsedData);
 
         // Return the observable.
-        return this.state[key];
+        return this.state[token];
     }
 
-    set<T = any>(key: string, data: T) {
+    set<T = any>(token: string, data: T) {
         // Stringify the data.
         const rawData = JSON.stringify(data);
 
         // Set the item in the storage.
         if (this.storage) {
-            this.storage.setItem(key, rawData);
+            this.storage.setItem(token, rawData);
         }
 
         // Check if the state does not exist.
-        if (!this.state[key]) {
+        if (!this.state[token]) {
             return;
         }
 
         // Check if the current and next values are not equal.
-        const current = this.state[key].getValue();
+        const current = this.state[token].getValue();
         if (current === data) {
             return;
         }
 
-
         // Push the new data.
-        this.state[key].next(data);
+        this.state[token].next(data);
     }
 
-    clear(key: string) {
+    remove(token: string) {
         // Remove the item from the storage (if the storage exists).
         if (this.storage) {
-            this.storage.removeItem(key);
+            this.storage.removeItem(token);
         }
 
         // Check if the storage state exists.
-        if (!this.state[key]) {
+        if (!this.state[token]) {
             return;
         }
 
         // Check if the current and next values are not equal.
-        const current = this.state[key].getValue();
+        const current = this.state[token].getValue();
         const next = null;
         if (current === next) {
             return;
         }
 
         // Set the state to null.
-        this.state[key].next(next);
+        this.state[token].next(next);
     }
 
-    clearAll() {
+    clear() {
         // Do a local storage clear (if the storage exists).
         if (this.storage) {
             this.storage.clear();

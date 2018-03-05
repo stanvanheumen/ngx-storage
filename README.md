@@ -8,10 +8,10 @@ A simple library that allows you to use local storage in Angular 5+.
 
 - :frog: **Observable based**
 - :camel: **Easy implementation**
-- :panda_face: **Automatic JSON parsing**
 - :mouse: **Lazy loading compatible**
 - :sheep: **Angular Universal compatible**
 - :bird: **Ahead-Of-Time compilation compatible**
+- :panda_face: **Automatic JSON (de)serialization**
 - :hamster: **Library can be consumed by Angular CLI, Webpack, or SystemJS**
 
 ## Demo
@@ -32,62 +32,66 @@ $ yarn add @stanvanheumen/ngx-storage
 
 ## Setup
 
-Add the `NgxStorageModule` to your imports array in your `Root Module`.
-
-When you forget to call the `forRoot()` method you will NOT receive the `StorageService` provider.
+Add the `NgxStorageModule` to your imports array in your `CoreModule`.
 
 ```typescript
 import {NgxStorageModule} from '@stanvanheumen/ngx-storage';
 
 @NgModule({
-    imports: [
-        NgxStorageModule.forRoot()
-    ]
+    imports: [NgxStorageModule.forRoot()]
 })
 export class AppModule {}
 ```
 
+> The `forRoot()` method should only be called in your `CoreModule` since it provides the `StorageService`.
+
 ## API
 
-### Retrieving data
+The `StorageService` has the following API:
 
-When you call this method you receive an `Observable` that will get updated each time the user sets a **new** value 
-via the `set<T>()` method. This method supports automatic JSON parsing, so you will receive an object/primitive of the 
-type you specify.
+#### `.get<T>(token: string): Observable<T | null>`
+
+Returns the value associated to the specified token wrapped in an observable stream that will get updated each time the 
+user sets a new value in the storage.
 
 ```typescript
-// For a primative type like string, number and boolean.
+// For a primitive type like string, number and boolean.
 const string$ = this.storage.get<string>('my-string');
 
 // For an advanced object or array.
 const object$ = this.storage.get<MyAdvancedObject>('my-advanced-object');
 ```
 
-### Saving data
+> The value is deserialized using the `JSON.parse()` method.
 
-When you call this method the subscriptions on the `get<T>()` observable will automatically get notified.
-This method supports the automatic JSON stringify.
+#### `.set<T>(token: string, data: T): void`
+
+Associates a value to the specified token. 
 
 ```typescript
-this.storage.set<T>('my-local-storage-token', 'my-new-value'); // The second argument is of type T.
+// For a primitive type like string, number and boolean.
+this.storage.set<string>('my-local-storage-token', 'my-new-value');
+
+// For an advanced object or array.
+this.storage.set<MyAdvancedObject>({name: 'Test', description: 'Lorem Ipsum'});
 ```
 
-### Clearing data
+> The value is serialized using the `JSON.stringify()` method.
 
-When you call this method the subscriptions on the `get<T>()` observable will automatically get set to null. 
-And the local storage will be cleared of the provided key.
+#### `.remove(token: string): void`
+
+Removes the value associated to the specified token.
 
 ```typescript
-this.storage.clear('my-local-storage-token');
+this.storage.remove('my-local-storage-token');
 ```
 
-### Clearing all
+#### `.clear(): void`
 
-When you call this method the subscriptions on the `get<T>()` observables will automatically get set to null. 
-And the local storage will be completely cleared.
+Removes all key-value pairs from the storage.
 
 ```typescript
-this.storage.clearAll();
+this.storage.clear();
 ```
 
 ## Example
@@ -105,7 +109,7 @@ import {Observable} from 'rxjs/Observable';
         <button (click)="setStorageValue('Awesome')">Set value to <strong>"Awesome"</strong></button>
         <button (click)="setStorageValue('Cool')">Set value to <strong>"Cool"</strong></button>
         <button (click)="setStorageValue('Hello world!')">Set value to <strong>"Hello world!"</strong></button>
-        <button (click)="clearStorageValue()">Clear the value</button>
+        <button (click)="removeStorageValue()">Clear the value</button>
     `
 })
 export class AppComponent implements OnInit {
@@ -123,8 +127,8 @@ export class AppComponent implements OnInit {
         this.storage.set<string>('my-local-storage-token', value);
     }
     
-    clearStorageValue() {
-        this.storage.clear('my-local-storage-token');
+    removeStorageValue() {
+        this.storage.remove('my-local-storage-token');
     }
 
 }

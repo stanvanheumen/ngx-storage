@@ -23,12 +23,12 @@ export class AppComponent implements OnInit {
         this.storage.set<string>(token, value);
     }
 
-    clearStorageValue(token: string) {
-        this.storage.clear(token);
+    removeStorageValue(token: string) {
+        this.storage.remove(token);
     }
 
     clearAll() {
-        this.storage.clearAll();
+        this.storage.clear();
     }
 
 }
