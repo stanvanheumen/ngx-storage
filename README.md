@@ -10,8 +10,8 @@ A simple library that allows you to use local storage in Angular 5+.
 - :camel: **Easy implementation**
 - :mouse: **Lazy loading compatible**
 - :sheep: **Angular Universal compatible**
-- :bird: **Ahead-Of-Time compilation compatible**
 - :panda_face: **Automatic JSON (de)serialization**
+- :bird: **Ahead-Of-Time compilation compatible**
 - :hamster: **Library can be consumed by Angular CLI, Webpack, or SystemJS**
 
 ## Demo
@@ -73,7 +73,7 @@ Associates a value to the specified token.
 this.storage.set<string>('my-local-storage-token', 'my-new-value');
 
 // For an advanced object or array.
-this.storage.set<MyAdvancedObject>({name: 'Test', description: 'Lorem Ipsum'});
+this.storage.set<MyAdvancedObject>('my-advanced-object', {name: 'Test', description: 'Lorem Ipsum'});
 ```
 
 > The value is serialized using the `JSON.stringify()` method.
