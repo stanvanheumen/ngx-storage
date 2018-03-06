@@ -73,8 +73,8 @@ export class StorageService {
         }
 
         // Check if the current and next values are not equal.
-        const current = this.state[token].getValue();
-        if (current === data) {
+        const current = JSON.stringify(this.state[token].getValue());
+        if (current === rawData) {
             return;
         }
 
