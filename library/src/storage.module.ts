@@ -4,15 +4,8 @@ import {CommonModule} from '@angular/common';
 import {StorageService} from './storage.service';
 
 @NgModule({
-    imports: [CommonModule]
+    imports: [CommonModule],
+    providers: [StorageService]
 })
 export class NgxStorageModule {
-
-    static forRoot() {
-        return {
-            ngModule: NgxStorageModule,
-            providers: [StorageService]
-        };
-    }
-
 }

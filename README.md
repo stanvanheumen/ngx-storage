@@ -38,13 +38,10 @@ Add the `NgxStorageModule` to your imports array in your `CoreModule`.
 import {NgxStorageModule} from '@stanvanheumen/ngx-storage';
 
 @NgModule({
-    imports: [NgxStorageModule.forRoot()]
+    imports: [NgxStorageModule]
 })
 export class AppModule {}
 ```
-
-> The `forRoot()` method should only be called in your `CoreModule` since it provides the `StorageService`.
-
 ## API
 
 The `StorageService` has the following API:

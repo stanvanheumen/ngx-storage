@@ -1,6 +1,6 @@
 {
     "name": "@stanvanheumen/ngx-storage",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "license": "MIT",
     "description": "A simple library that allows you use local storage in Angular 5+.",
     "author": {
