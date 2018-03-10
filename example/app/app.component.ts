@@ -1,10 +1,12 @@
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {StorageService} from '../../library/src/storage.service';
-import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 @Component({
     selector: 'app-root',
-    templateUrl: './app.component.html'
+    templateUrl: './app.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    preserveWhitespaces: false
 })
 export class AppComponent implements OnInit {
 

@@ -11,29 +11,46 @@ interface StorageState {
 export class StorageService {
 
     // The localStorage (only available in the browser).
-    private readonly storage = (typeof window !== 'undefined' && window.hasOwnProperty('localStorage'))
-        ? window.localStorage
-        : null;
+    private readonly storage: Storage | null =
+        (typeof window !== 'undefined' && window.hasOwnProperty('localStorage'))
+            ? window.localStorage
+            : null;
 
     // The state containing the observables.
     private state: StorageState = {};
 
+    // Warn function.
+    private warn = (text: string) => {
+        if (console && console.warn) {
+            console.warn(text);
+        }
+    };
+
     constructor() {
-        // Warn the user once if the local storage is not supported.
-        if (!this.storage) {
+        // Warn the user once if the local storage is not available on the current platform.
+        if (!this.isStorageAvailable) {
             this.warn('The local storage is not available on this platform.');
         }
     }
 
+    /**
+     * Returns the value associated to the specified token wrapped in an observable stream
+     * that will get updated each time the user sets a new value in the storage.
+     * If the storage is not available an in-memory solution will be used.
+     *
+     * @param token The token that is associated to a given value.
+     *
+     * @returns An observable of type T or null.
+     */
     get<T = any>(token: string): Observable<T | null> {
         // Check if the storage is already in the state; if so, return the subject.
         if (this.state[token]) {
             return this.state[token];
         }
 
-        // Get the data from the local storage.
+        // Get the data from the local storage, if the storage is available.
         let rawData = null;
-        if (this.storage) {
+        if (this.isStorageAvailable) {
             rawData = this.storage.getItem(token);
         }
 
@@ -58,12 +75,19 @@ export class StorageService {
         return this.state[token];
     }
 
-    set<T = any>(token: string, data: T) {
+    /**
+     * Associates a value to the specified token. This method updates all subscribers to the observable
+     * that is in the state.
+     *
+     * @param token The token that is associated with the given value.
+     * @param data The value that will be set in the storage.
+     */
+    set<T = any>(token: string, data: T): void {
         // Stringify the data.
         const rawData = JSON.stringify(data);
 
         // Set the item in the storage.
-        if (this.storage) {
+        if (this.isStorageAvailable) {
             this.storage.setItem(token, rawData);
         }
 
@@ -82,9 +106,15 @@ export class StorageService {
         this.state[token].next(data);
     }
 
-    remove(token: string) {
+    /**
+     * Removes the value associated to the specified token. This method updates all subscribers to the observable
+     * that is in the state.
+     *
+     * @param token The token that is associated to a given value.
+     */
+    remove(token: string): void {
         // Remove the item from the storage (if the storage exists).
-        if (this.storage) {
+        if (this.isStorageAvailable) {
             this.storage.removeItem(token);
         }
 
@@ -104,9 +134,13 @@ export class StorageService {
         this.state[token].next(next);
     }
 
-    clear() {
+    /**
+     * Removes all key-value pairs from the storage. This method updates all subscribers to all observables
+     * that are in the state.
+     */
+    clear(): void {
         // Do a local storage clear (if the storage exists).
-        if (this.storage) {
+        if (this.isStorageAvailable) {
             this.storage.clear();
         }
 
@@ -124,10 +158,8 @@ export class StorageService {
         });
     }
 
-    private warn(text: string) {
-        if (console && console.warn) {
-            console.warn(text);
-        }
+    private get isStorageAvailable() {
+        return !!this.storage;
     }
 
 }

@@ -42,6 +42,9 @@ import {NgxStorageModule} from '@stanvanheumen/ngx-storage';
 })
 export class AppModule {}
 ```
+
+> Since the `StorageService` contains state it is important to only import the `NgxStorageModule` in your `CoreModule`.
+
 ## API
 
 The `StorageService` has the following API:

@@ -11,7 +11,7 @@ import {AppComponent} from './app.component';
     ],
     imports: [
         BrowserModule,
-        NgxStorageModule.forRoot()
+        NgxStorageModule
     ],
     providers: [],
     bootstrap: [AppComponent]
